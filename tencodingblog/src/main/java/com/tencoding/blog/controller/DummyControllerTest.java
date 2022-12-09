@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -93,8 +94,18 @@ public class DummyControllerTest {
 		user.setPassword(reqUser.getPassword());
 		user.setEmail(reqUser.getEmail());
 //		userRepository.save(user);
-		
 		return null;
+	}
+	
+	@DeleteMapping("/user/{id}")
+	public String delete(@PathVariable int id) {
+		
+		try {
+			userRepository.deleteById(id);	
+		} catch (Exception e) {
+			return id + "사용자의 계정이 없습니다.";
+		}
+		return id + "계정은 삭제 되었습니다.";
 	}
 	
 	
