@@ -1,4 +1,4 @@
-package com.tencoding.blog.controller.repository;
+package com.tencoding.blog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
