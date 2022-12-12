@@ -45,8 +45,20 @@ let index = {
 		let data = {
 			username : $('#username').val(),
 			password : $('#password').val()
-		}
-		console.log(data)
+		};
+		$.ajax({
+			type : 'POST',
+			url : '/api/user/login',
+			data : JSON.stringify(data),
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json'
+		}).done(function(data, textStatus, xhr) {
+			alert("로그인 성공");
+			console.log(data);
+			location.href = '/';
+		}).fail(function(error){
+			alert("로그인 실패");			
+		});
 	}
 	
 };

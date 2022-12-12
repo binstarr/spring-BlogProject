@@ -12,10 +12,9 @@ import com.tencoding.blog.repository.UserRepository;
 // 스프링이 컴포넌트 스캔을 통해서 Bean으로 등록해 준다 (IoC)
 @Service
 public class UserService {
-	
+
 	/*
-	 * 서비스를 만드는 이유
-	 * 트랜잭션 관리를 하기 위해서 
+	 * 서비스를 만드는 이유 트랜잭션 관리를 하기 위해서
 	 */
 
 	@Autowired
@@ -37,4 +36,13 @@ public class UserService {
 
 		return -1;
 	}
+
+	public User login(User user) {
+		// 기본 Repository에 필요한 함수가 없을 경우 직접 생성하면 된다.
+		// userRepository.get
+//		User userEntity = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+		User userEntity = userRepository.login(user.getUsername(), user.getPassword());
+		return userEntity;
+	}
+
 }
