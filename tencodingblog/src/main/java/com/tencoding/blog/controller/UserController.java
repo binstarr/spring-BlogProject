@@ -25,12 +25,12 @@ public class UserController {
 	}
 	
 	// 기존 스프링에서 로그아웃 처리는 -- 따로 정리!!
-	@GetMapping("/logout")
-	public String logout(HttpSession httpSession) {
-		httpSession.invalidate(); // 로그아웃 처리
-		System.out.println("11111111111111111111111111111");
-		return "redirect:/";
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpSession httpSession) {
+//		httpSession.invalidate(); // 로그아웃 처리
+//		System.out.println("11111111111111111111111111111");
+//		return "redirect:/";
+//	}
 	
 	
 }
