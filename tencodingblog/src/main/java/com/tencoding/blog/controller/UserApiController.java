@@ -36,14 +36,14 @@ public class UserApiController {
 	}
 	
 	@PostMapping("/user/login")
-	public ResponseDto<User> login(@RequestBody User user) {
+	public ResponseDto<Integer> login(@RequestBody User user) {
 		System.out.println("UserApiController에서 login 호출 됨: " + user);
 		User principal = userService.login(user);
 		if(principal != null) {
 			session.setAttribute("principal", principal); // key value 저장!!!!
 		}
 		
-		return new ResponseDto<User>(HttpStatus.OK, principal); // 자바 OBject --> JSON 형식으로
+		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 OBject --> JSON 형식으로
 	}
 	
 }
