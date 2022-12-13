@@ -1,4 +1,4 @@
-package com.tencoding.blog.controller;
+package com.tencoding.blog.api;
 
 import javax.servlet.http.HttpSession;
 

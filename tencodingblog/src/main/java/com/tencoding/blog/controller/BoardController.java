@@ -17,8 +17,14 @@ public class BoardController {
 	public String index(@AuthenticationPrincipal PrincipalDetail principal) {
 		if(principal != null) {
 			System.out.println(principal.getUsername());
-			System.out.println(principal.getPassword());
+			System.out.println(principal.getAuthorities());
 		}
 		return "index";
+	}
+	
+	
+	@GetMapping("/board/save_form")
+	public String saveForm() {
+		return "/board/save_form";
 	}
 }

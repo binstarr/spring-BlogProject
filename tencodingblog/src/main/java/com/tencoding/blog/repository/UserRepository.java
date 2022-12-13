@@ -9,6 +9,7 @@ import com.tencoding.blog.dto.User;
 
 // DAO
 // 여기서는 굳이 Bean으로 등록 요청을 하지 않아도 등록을 시켜 준다.  --> JpaRepository   <> 안에 Integer는 PK의 데이터 타입이다.
+// DB에 저장하기 위함
 //@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
