@@ -1,13 +1,10 @@
 package com.tencoding.blog.controller;
 
-import java.net.http.HttpRequest;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -22,7 +19,7 @@ public class UserController {
 	
 	@GetMapping("/auth/join_form")
 	public String joinForm() {
-			return "user/join_form";
+		return "user/join_form";
 	}
 	
 	// 기존 스프링에서 로그 아웃 처리는 -- 따로 정리 !!!
