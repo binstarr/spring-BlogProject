@@ -5,7 +5,7 @@
 <form action="">
 	<div class="form-group">
 		<label for=" username"> username:</label> 
-		<input type=" text" class="form-control" placeholder="Enter username" id="username" value="홍길동">
+		<input type=" text" class="form-control" placeholder="Enter username" id="username" value="teco">
 	</div>
 	<div class="form-group">
 		<label for="password">password:</label> 

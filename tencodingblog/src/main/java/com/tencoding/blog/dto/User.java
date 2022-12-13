@@ -50,6 +50,6 @@ public class User {
 	private RoleType role; // admin, user, manager -> enum 타입으로 변견
 	
 	@CreationTimestamp // 시간이 자동으로 입력 된다.
-	private Timestamp timestamp;
+	private Timestamp createDate;
 
 }

@@ -15,7 +15,6 @@ import com.tencoding.blog.dto.User;
 import com.tencoding.blog.service.UserService;
 
 @RestController
-@RequestMapping("/api")
 public class UserApiController {
 	
 	//DI
@@ -26,7 +25,7 @@ public class UserApiController {
 	private HttpSession session;
 	
 
-	@PostMapping("/user")
+	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
 		System.out.println("UserApiController에서 호출 됨. user : " + user);
 		
@@ -35,15 +34,15 @@ public class UserApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 OBject --> JSON 형식으로
 	}
 	
-	@PostMapping("/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user) {
-		System.out.println("UserApiController에서 login 호출 됨: " + user);
-		User principal = userService.login(user);
-		if(principal != null) {
-			session.setAttribute("principal", principal); // key value 저장!!!!
-		}
-		
-		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 OBject --> JSON 형식으로
-	}
+//	@PostMapping("/user/login")
+//	public ResponseDto<Integer> login(@RequestBody User user) {
+//		System.out.println("UserApiController에서 login 호출 됨: " + user);
+//		User principal = userService.login(user);
+//		if(principal != null) {
+//			session.setAttribute("principal", principal); // key value 저장!!!!
+//		}
+//		
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 OBject --> JSON 형식으로
+//	}
 	
 }
