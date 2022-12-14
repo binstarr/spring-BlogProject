@@ -43,7 +43,7 @@ public class Board {
 
 	@ManyToOne(fetch = FetchType.EAGER) // userId_id <-- 이렇게 들어가있따.
 	@JoinColumn(name = "userId") // 컬럼명을 직접 지정
-	private User userId;
+	private User user;
 	
 	// 오브젝트를 다룰 때 가지고 와 달라고 요청해야 함 (mappedMy)
 	// Boar <---> Reply 관계

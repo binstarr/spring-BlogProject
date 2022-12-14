@@ -22,7 +22,7 @@ public class BoardService {
 
 		// 가독성을 위해 한번 더 지정
 		board.setCount(0);
-		board.setUserId(user);
+		board.setUser(user);
 		boardRepository.save(board);
 
 	}
@@ -31,6 +31,18 @@ public class BoardService {
 	@Transactional(readOnly = true)
 	public Page<Board> getBoardList(Pageable pageable) {
 		return boardRepository.findAll(pageable);
+	}
+
+	public Board boardDetail(int id) {
+		return boardRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 글을 찾을 수 없습니다.");
+		});
+		
+	}
+
+	@Transactional
+	public void deleteById(int id) {
+		boardRepository.deleteById(id);
 	}
 
 }
