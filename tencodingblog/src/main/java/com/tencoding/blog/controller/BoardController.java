@@ -1,28 +1,42 @@
 package com.tencoding.blog.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.tencoding.blog.auth.PrincipalDetail;
+import com.tencoding.blog.dto.Board;
+import com.tencoding.blog.service.BoardService;
 
 @Controller
 public class BoardController {
+
+	@Autowired
+	private BoardService boardService;
 
 	/*
 	 * 로그인이 인증되면 컨트롤러에서 어떻게 세션을 찾을까?
 	 * 
 	 */
-	@GetMapping({"","/"})
-	public String index(@AuthenticationPrincipal PrincipalDetail principal) {
-		if(principal != null) {
-			System.out.println(principal.getUsername());
-			System.out.println(principal.getAuthorities());
-		}
+	// ?page=2
+	@GetMapping({ "", "/" })
+	public String index(Model model,
+			@PageableDefault(size = 1, sort = "id", direction = Direction.DESC) Pageable pageable) {
+		// List에서 Page로 변함
+		Page<Board> boards = boardService.getBoardList(pageable);
+		boards.stream().forEach(item ->{
+			System.out.println(item);
+		});
+		model.addAttribute("boards", boards);
+		System.out.println(boards.getSize());
+		// jsp 파일에서 model 추상객체를 이용해서 컨트롤러에서 내려 준 데이터에 접근이 가능하다.
 		return "index";
 	}
-	
-	
+
 	@GetMapping("/board/save_form")
 	public String saveForm() {
 		return "/board/save_form";
