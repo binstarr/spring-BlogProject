@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.tencoding.blog.dto.OAuthToken;
+
 @Controller
 public class UserController {
 
@@ -39,7 +41,7 @@ public class UserController {
 	// 페이지에서 데이터를 리턴하는 방법
 	@GetMapping("/auth/kakao/callback")
 	@ResponseBody // data를 리턴함 (페이지 x)
-	public String kakaoCallback(@RequestParam String code) {
+	public OAuthToken kakaoCallback(@RequestParam String code) {
 		// 여기서 카카오 서버에서 보내준 code 값을 받을 수 있다.
 		// 다음 단계는 토큰 발급 받기
 		
@@ -60,13 +62,16 @@ public class UserController {
 		= new HttpEntity<>(params, headers);
 		
 		//헤더 변조해서 실행 시키는 메서드는 RestTemplate exchange() 이다.
-		ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com/oauth/token", 
+		ResponseEntity<OAuthToken> response = rt.exchange("https://kauth.kakao.com/oauth/token", 
 				HttpMethod.POST,
 				requestKakaoToken,
-				String.class
+				OAuthToken.class
 				);
+		/////////////////// 여기까지 토큰 받기 완료 ////////////////////////////////////
 		
-		return "카카오 인가 코드 : \n" + response;
+		// 다시 한번 더 kapi.kakao.com로 토큰을 가지고 요청하여 사용자 정보를 응답 받아야 한다.
+		
+		return response.getBody();
 	}
 	
 	// 기존 스프링에서 로그 아웃 처리는 -- 따로 정리 !!!

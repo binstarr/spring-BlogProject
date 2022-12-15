@@ -24,4 +24,15 @@ public class ApiController {
 		return service.반가워().toString();
 	}
 	
+	@GetMapping("/get-hello1")
+	public String getHello1() {
+		return service.hello1().toString();
+	}
+	
+	@GetMapping("/get-hello2")
+	public String getHello2() {
+		
+		return service.hello2().toString();
+	}
+	
 }
