@@ -15,8 +15,8 @@
 		<label for="email">email:</label> 
 		<input type="email" class="form-control" placeholder="Enter email" id="email" value="abc@naver.com">
 	</div>
-	<button type="button" id="btn--save" class="btn btn-primary">signUp</button>
 </form>
+	<button type="button" id="btn--save" class="btn btn-primary">signUp</button>
 
 </div>
 <script type="text/javascript" src="/js/user.js"></script>

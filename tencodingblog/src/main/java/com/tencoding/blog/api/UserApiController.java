@@ -39,7 +39,7 @@ public class UserApiController {
 	public ResponseDto<?> update(@RequestBody User user){
 		
 		// validation 처리.. 안되어있으면 예외 잡아서 사용한테 떨궈주면 됨 !!
-		userService.saveUser(user);
+		userService.updateUser(user);
 		
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}

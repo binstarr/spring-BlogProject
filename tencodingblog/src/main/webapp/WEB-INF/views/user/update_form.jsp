@@ -19,8 +19,8 @@
 			<input type="email" class="form-control" placeholder="Enter email" id="email" value="${principal.user.email}">
 		</div>
 		
-		<button type="button" id="btn--update" class="btn btn-primary">회원정보수정완료</button>
 	</form>
+			<button type="button" id="btn--update" class="btn btn-primary">회원정보수정완료</button>
 
 </div>
 <script type="text/javascript" src="/js/user.js"></script>
