@@ -4,11 +4,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tencoding.blog.dto.ResponseDto;
@@ -25,6 +27,9 @@ public class UserApiController {
 	@Autowired
 	private HttpSession session;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
 
 	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
@@ -39,7 +44,21 @@ public class UserApiController {
 	public ResponseDto<?> update(@RequestBody User user){
 		
 		// validation 처리.. 안되어있으면 예외 잡아서 사용한테 떨궈주면 됨 !!
+		System.out.println("user : " + user);
 		userService.updateUser(user);
+		//////////////////////////////////////////////
+		
+		// 목표 : Authentication 접근해서 담겨 있는 Object 값을 수정 해야 세션의 정보가 변경이 된다.
+		// 1. Authentication 객체를 생성
+		// 2. AuthenticationManager 메모리에 올려서 authenticate 메서드에 Authentication라는 오브젝트를 저장
+		// 3. SecurityContextHolder.getContext().setAuthentication(우리가 만든 Authentication() 객체를 집어 넣어준다)
+		
+		// UsernamePasswordAuthenticationToken을 생성해야함
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		//2.
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
