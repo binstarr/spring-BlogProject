@@ -9,6 +9,10 @@ let index = {
 			this.login();
 		});
 		
+		$('#btn--update').bind('click', () => {
+			this.update();
+		})
+		
 	},
 	save : function(){
 		// form 태그 사용자가 입력한 값을 가지고 오기 --> 자바스크립트 변수로
@@ -41,6 +45,30 @@ let index = {
 			alert("회원가입 실패");	
 		});
 	},
+	update: function(){
+		let data = {
+			id : $('#id').val(),
+			username: $('#username').val(),
+			password : $('#password').val(),
+			email : $('#email').val()
+		};
+		// 방어적 코드 적어야함 : password or email 을 입력 안 했을 때, 
+		$.ajax({
+			type:'PUT',
+			url:'/api/user',
+			data:JSON.stringify(data),
+			contentType:'application/json; charset=utf-8',
+			dataType:'json'
+		}).done(function(data, textStatus, xhr){
+			if(data.status == "OK"){
+				alert("회원 정보 수정을 완료 하였습니다.")
+				location.href = "/"
+			}
+		}).fail(function(error){
+			alert("회원 정보 수정을 실패 하였습니다.")
+			
+		});
+	}
 	
 	
 };

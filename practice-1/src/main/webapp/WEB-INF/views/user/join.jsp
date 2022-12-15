@@ -4,7 +4,7 @@
 
 <div class="container">
 
-<form action="/" method="POST">
+<form action="">
 
   <div class="form-group">
     <label for="username">Username</label>

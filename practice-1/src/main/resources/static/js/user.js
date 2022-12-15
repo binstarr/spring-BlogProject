@@ -24,6 +24,7 @@ let index = {
 			console.log(data)
 			console.log(textStatus)
 			console.log(xhr)
+			location.href = "/"
 		}).fail(function(error){
 			alert("실패")
 		});
