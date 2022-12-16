@@ -5,22 +5,23 @@
 	<form action="">
 		<input type="hidden" name="id" id="id" value="${principal.user.id}">
 		<div class="form-group">
-			<label for=" username"> username:</label> 
-			<input type=" text" class="form-control" readonly="readonly" name="username" placeholder="Enter username" id="username" value="${principal.user.username}">
+			<label for=" username"> username:</label> <input type=" text" class="form-control" readonly="readonly" name="username" placeholder="Enter username"
+				id="username" value="${principal.user.username}">
 		</div>
-		
+
+		<c:if test="${empty principal.user.oauth}">
+			<div class="form-group">
+				<label for="password">password:</label> 
+				<input type="password" class="form-control" placeholder="Enter password" id="password" value="">
+			</div>
+		</c:if>
+
 		<div class="form-group">
-			<label for="password">password:</label> 
-			<input type="password" class="form-control" placeholder="Enter password" id="password" value="">
+			<label for="email">email:</label> <input type="email" class="form-control" placeholder="Enter email" id="email" value="${principal.user.email}">
 		</div>
-		
-		<div class="form-group">
-			<label for="email">email:</label> 
-			<input type="email" class="form-control" placeholder="Enter email" id="email" value="${principal.user.email}">
-		</div>
-		
+
 	</form>
-			<button type="button" id="btn--update" class="btn btn-primary">회원정보수정완료</button>
+	<button type="button" id="btn--update" class="btn btn-primary">회원정보수정완료</button>
 
 </div>
 <script type="text/javascript" src="/js/user.js"></script>

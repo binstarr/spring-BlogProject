@@ -10,7 +10,7 @@
 	</div>
 	<div class="form-group">
 		<label for="password">password:</label> 
-		<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" value="1q2w3e4r">
+		<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" value="asd123">
 	</div>
 	<button type="submit" id="btn--login" class="btn btn-primary">signIn</button>
 	<a href="https://kauth.kakao.com/oauth/authorize?client_id=1e1f1847ff550347b03a392367de4ad2&redirect_uri=http://localhost:9090/auth/kakao/callback&response_type=code">
