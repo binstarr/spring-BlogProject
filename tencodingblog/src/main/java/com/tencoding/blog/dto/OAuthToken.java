@@ -2,7 +2,7 @@ package com.tencoding.blog.dto;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "access_token", "token_type", "refresh_token", "id_token", "expires_in", "scope",
 		"refresh_token_expires_in" })
-@Generated("jsonschema2pojo")
 public class OAuthToken {
 
 	@JsonProperty("access_token")

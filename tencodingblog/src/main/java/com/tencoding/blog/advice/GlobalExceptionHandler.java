@@ -17,57 +17,58 @@ import com.tencoding.blog.dto.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
 	
 	@ExceptionHandler(value = Exception.class)
 	public void exception(Exception e) {
 		
-		System.out.println("--------------");
+		System.out.println("----------------------------");
 		System.out.println(e.getClass().getName());
 		System.out.println(e.getMessage());
-		System.out.println("--------------");
+		System.out.println("----------------------------");
+		
 	}
 	
-	@ExceptionHandler(value =  IllegalArgumentException.class)
+	@ExceptionHandler(value = IllegalArgumentException.class)
 	public String illegalArgumentException(IllegalArgumentException e) {
-
-		return "<h1>" + e.getMessage() + "</h1>";
-	}
 	
+		return "<h1>" + e.getMessage() + "</h1>";
+		
+	}
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException e){
-		
 		System.out.println("IllegalArgumentException 발생");
+		List<CustomError> eList = new ArrayList<CustomError>();
 		
-		List<CustomError> eList = new ArrayList<>();
 		BindingResult bindingResult = e.getBindingResult();
-		bindingResult.getAllErrors().forEach(action -> {
+		bindingResult.getAllErrors().forEach(action ->{
 			FieldError fieldError = (FieldError) action;
 			String fieldName = fieldError.getField();
-			String fieldMessage = fieldError.getDefaultMessage();
+			String message = fieldError.getDefaultMessage();
 			
 			CustomError customError = new CustomError();
 			customError.setField(fieldName);
-			customError.setMessage(fieldMessage);
+			customError.setMessage(message);
 			eList.add(customError);
 		});
-		
 		// TODO
-		// ErrorResponse는 추후 처리
+		//Error Response는 추후처리
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(eList);
-		
 	}
+	
 	
 	@ExceptionHandler(value = UnexpectedRollbackException.class)
 	public ResponseEntity<?> unexpectedRollbackException(UnexpectedRollbackException e){
-		System.out.println("IllegalArgumentException 발생");
-		ErrorResponse errorResponse = ErrorResponse
+		System.out.println("UnexpectedRollbackException 발생");
+		ErrorResponse errorResponse =  ErrorResponse
 				.builder()
 				.statusCode(HttpStatus.BAD_REQUEST.toString())
 				.code(HttpStatus.BAD_REQUEST.value())
-				.message("동일한 아이디가 존재합니다.")
+				.message("동일한 아이디가 존재합니다")
 				.build();
-
+				
+		System.out.println();
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 	}
-
+	
 }

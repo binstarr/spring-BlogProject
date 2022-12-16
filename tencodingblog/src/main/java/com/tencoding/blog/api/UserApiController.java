@@ -19,59 +19,62 @@ import com.tencoding.blog.service.UserService;
 
 @RestController
 public class UserApiController {
-	
-	//DI
+
+	// DI
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
 
 	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
-		System.out.println("UserApiController에서 호출 됨. user : " + user);
-		
+		System.out.println("UserApiController save 호출됨!");
+		System.out.println("user: " + user);
+
+		// 1 or -1 이 무조건 넘어온다.
 		int result = userService.saveUser(user);
-		
-		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 OBject --> JSON 형식으로
+		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 object --> json 형식으로 변환
 	}
-	
+
+//	@PostMapping("/user/login")
+//	public ResponseDto<?> login(@RequestBody User user) {
+//		System.out.println("UserApiController login 호출됨!");
+//		System.out.println("user: " + user);
+//
+//		// principal 접근 주체
+//		User principal = userService.login(user);
+//		//System.out.println("principal :" + principal);
+//
+//		if (principal != null) {
+//			session.setAttribute("principal", principal);
+//		}
+//
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 object --> json 형식으로 변환
+//	}
+
 	@PutMapping("/api/user")
-	public ResponseDto<?> update(@RequestBody User user){
+	public ResponseDto<Integer> update(@RequestBody User user){
 		
-		// validation 처리.. 안되어있으면 예외 잡아서 사용한테 떨궈주면 됨 !!
+		//여기까지 오기전에 벨리데이션 처리... 아니면 예외 잡아서 사용자에게 떨궈 주면 된다.
 		System.out.println("user : " + user);
 		userService.updateUser(user);
-		//////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		// 목표 : Authentication에 접근해서 담겨있는 Object 값을 수정해야 한다.
+		//1. Authentication 객체 생성
+		//2. AuthenticationManager 메모리에 올려서 authenticate 메서드에 Authentication 저장한다.
+		//. UsernamePasswordAuthenticationToken을 생성해야한다.
+		//3. SecurityContextHolder.getContext().setAuthentication(우리가 만든 Authentication ());
 		
-		// 목표 : Authentication 접근해서 담겨 있는 Object 값을 수정 해야 세션의 정보가 변경이 된다.
-		// 1. Authentication 객체를 생성
-		// 2. AuthenticationManager 메모리에 올려서 authenticate 메서드에 Authentication라는 오브젝트를 저장
-		// 3. SecurityContextHolder.getContext().setAuthentication(우리가 만든 Authentication() 객체를 집어 넣어준다)
-		
-		// UsernamePasswordAuthenticationToken을 생성해야함
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-		//2.
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
 		
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
-	
-//	@PostMapping("/user/login")
-//	public ResponseDto<Integer> login(@RequestBody User user) {
-//		System.out.println("UserApiController에서 login 호출 됨: " + user);
-//		User principal = userService.login(user);
-//		if(principal != null) {
-//			session.setAttribute("principal", principal); // key value 저장!!!!
-//		}
-//		
-//		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 OBject --> JSON 형식으로
-//	}
-	
+
 }

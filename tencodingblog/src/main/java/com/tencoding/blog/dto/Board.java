@@ -3,6 +3,7 @@ package com.tencoding.blog.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,44 +14,57 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 @Entity
 public class Board {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(nullable = false, length = 150)
 	private String title;
-	
-	@Lob // 대용량 데이터 선언
-	private String content; // <html>asdasd</html>
-	
-	@ColumnDefault("0") // <-- int다, 문자열로 하려면 "" 안에 '' 넣어주자
-	private int count;
 
-	@ManyToOne(fetch = FetchType.EAGER) // userId_id <-- 이렇게 들어가있따.
+	@Lob // 대용량 데이터 선언
+	private String content;
+
+	@ColumnDefault("0")
+	private int count; // 조회수
+
+	// 연관관계 설정
+	@ManyToOne(fetch = FetchType.EAGER)
+	// EAGER : 한번에 틀과 데이터를 동시에 가져옴
+	// Lazy : 틀만 가져오고 데이터는 안가지고 옴
 	@JoinColumn(name = "userId") // 컬럼명을 직접 지정
+//	@JsonManagedReference
 	private User user;
-	
-	// 오브젝트를 다룰 때 가지고 와 달라고 요청해야 함 (mappedMy)
-	// Boar <---> Reply 관계
-	// 연관 관계에 주인이 아니다. (select할 때 가지고 와야 하는 데이터이다.)
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // 변수 명을 가지고 와야 한다.
-	private List<Reply> reply;
-	// reply - > FK board table 생성이 된다. 1정규화 위반!!
+
+	// 테이블을 생성하는 것이 아니라, 오브젝트를 다룰 때 가지고 오도록 요청 (mappedBy)
+	// Board <---> Reply 관계
+	// 연관관계의 주인이 아니다. (select 할 때 가지고 와야하는 데이터이다)
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // board는 변수명과 관계없이 오브젝트 이름을 가져와야함
+	@OrderBy("id desc") // 정렬 주는 방법
+//	@JsonBackReference
+	@JsonIgnoreProperties({"board", "content"}) // Reply 안에 있는 board getter 를 무시하면 호출이 안된다.
+	private List<Reply> replys;
+	// reply - FK board table 생성이 된다. 1 정규화 위반!
 
 	@CreationTimestamp
 	private Timestamp createDate;
