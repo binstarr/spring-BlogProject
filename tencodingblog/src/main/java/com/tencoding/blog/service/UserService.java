@@ -38,6 +38,7 @@ public class UserService {
 			userRepository.save(user);
 			return 1;
 		} catch (Exception e) {
+			System.out.println("saveUSer 에러 발생");
 			e.printStackTrace();
 		}
 
@@ -64,6 +65,16 @@ public class UserService {
 		// transactional 두개의 차이가 뭘까??
 		// 더티체킹을 하면 save를 안해도 되는데 더티체킹이 어떻게 시작이 될까 ?
 	}
+	
+	@Transactional
+	public User searchUserName(String username) {
+		
+		return userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
+	}
+	
+	
 
 //	public User login(User user) {
 //		// 기본 Repository에 필요한 함수가 없을 경우 직접 생성하면 된다.

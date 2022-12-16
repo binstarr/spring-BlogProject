@@ -36,7 +36,7 @@ public class User {
 	private int id;
 	
 	//unique = true true 제약 추가
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 50, unique = true)
 	private String username;
 	
 	@Column(nullable = false, length = 100)
@@ -48,6 +48,8 @@ public class User {
 //	@ColumnDefault(" 'user' ") // 문자라는 것을 알려 주어야 한다. --> (' ')
 	@Enumerated(EnumType.STRING) // DB에게 String 타입 이라고 알려 줘야 한다.
 	private RoleType role; // admin, user, manager -> enum 타입으로 변견
+	
+	private String oauth;// kakao, google
 	
 	@CreationTimestamp // 시간이 자동으로 입력 된다.
 	private Timestamp createDate;

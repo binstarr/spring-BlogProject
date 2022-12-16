@@ -29,3 +29,9 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+      
+     
+tenco:
+  key: asd1234
+  
+  
