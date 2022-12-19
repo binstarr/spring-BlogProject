@@ -79,7 +79,7 @@ public class UserController {
 		// 바디 만들기
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", "a3af89fb8269257123c6854ffafc500d");
+		params.add("client_id", "1e1f1847ff550347b03a392367de4ad2");
 		params.add("redirect_uri", "http://localhost:9090/auth/kakao/callback");
 		params.add("code", code);
 
@@ -122,8 +122,13 @@ public class UserController {
 
 		// 우리 사이트 회원가입시 필요한 사항 = username, email, password
 		// insert2.eat_""
-		User kakaoUser = User.builder().username(account.profile.nickname + "_" + kakaoDataResponse.getBody().id)
-				.email(account.email).password(tencoKey).oauth("kakao").build();
+		User kakaoUser = User
+				.builder()
+				.username(account.profile.nickname + "_" + kakaoDataResponse.getBody().id)
+				.email(account.email)
+				.password(tencoKey)
+				.oauth("kakao")
+				.build();
 
 		System.out.println(" kakao ===> " + kakaoUser);
 
@@ -135,8 +140,6 @@ public class UserController {
 		if (originUser.getUsername() == null) {
 			System.out.println("신규 회원이기 때문에, 회원가입을 진행");
 			userService.saveUser(kakaoUser);
-		} else {
-
 		}
 
 		// 신규로 회원가입이든, 기존 한번 가입했던 유저이든 무조건 소셜 로그인이면, 세션을 생성해주어야 한다.

@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +25,7 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 	@Autowired
 	private ReplyRepository replyRepository;
 
@@ -71,10 +75,35 @@ public class BoardService {
 		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
 			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재하지 않습니다.");
 		});
-		
+
 		requestReply.setUser(user);
 		requestReply.setBoard(board);
 		replyRepository.save(requestReply);
+
+	}
+
+	@Transactional
+	public void deleteReplyById(int replyId, int requsetUserId) {
+		System.out.println("requsetUserId : " + requsetUserId);
+
+		// 댓글 단 사용자의 id 가져와서 삭제 요청 누른 사람이랑 같은지 비교
+		Reply replyEntity = replyRepository.findById(replyId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 글을 찾을 수 없음");
+		});
+
+		try {
+			int dbWriter = replyEntity.getUser().getId();
+			int principalId = requsetUserId;
+
+			if (dbWriter == principalId) {
+				replyRepository.deleteById(replyId);
+			}else {
+				throw new IllegalArgumentException("해당 글을 찾을 수 없음");
+			}
+
+		} catch (Exception e) {
+		}
+//		System.out.println(">>>>>>>>>>>>>>>" + replyEntity.getUser().getId());
 
 	}
 
