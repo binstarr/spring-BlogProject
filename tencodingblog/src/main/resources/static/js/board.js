@@ -15,9 +15,11 @@ let index = {
 		});
 	},
 	save: function() {
+		let xcheckTitle = XSSCheck($('#title').val());
+		console.log(xcheckTitle)
 		let data = {
-			title: $('#title').val(),
-			content: $('#content').val()
+			title: xcheckTitle,
+			content: $('#content').val(), 
 		};
 		// ajax 통신 요청
 		$.ajax({
@@ -38,7 +40,7 @@ let index = {
 	},
 	
 	deleteById:function(){
-		let id = $("#board-id").text();
+		let id = $("#board-id").val();
 		
 		// 통신 ---> ajax
 		$.ajax({
@@ -120,6 +122,16 @@ let index = {
 			alert("댓글 삭제 실패")		
 		});
 	}
+}
+
+function XSSCheck(str, level) {
+    if (level == undefined || level == 0) {
+        str = str.replace(/\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-/g,"");
+    } else if (level != undefined && level == 1) {
+        str = str.replace(/\</g, "&lt;");
+        str = str.replace(/\>/g, "&gt;");
+    }
+    return str;
 }
 
 index.init();
