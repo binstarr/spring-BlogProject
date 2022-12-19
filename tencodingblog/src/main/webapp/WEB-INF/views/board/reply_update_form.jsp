@@ -35,13 +35,13 @@
 	<ul class="list-group">
 		<c:forEach var="reply" items="${board.replys}">
 			<li class="list-group-item d-flex justify-content-between">
-				<div>${reply.content}</div>
+				<textarea>${reply.content}</textarea>
 				<div class="d-flex">
 					<div>작성자 :&nbsp;${reply.user.username}&nbsp;&nbsp;&nbsp;</div>
 
 					<c:if test="${reply.user.id eq principal.user.id}">
 						<button class="btn btn-danger badge" onclick="index.replyDelete(${board.id},${reply.id});">삭제</button>
-						<a class="btn btn-danger badge" href="/board/${board.id}/reply_update_form" onclick="index.replyUpdate(${board.id},${reply.id});">수정</a>
+						<button class="btn btn-danger badge" id="btn-reply-save">저장</button>
 					</c:if>
 
 				</div>

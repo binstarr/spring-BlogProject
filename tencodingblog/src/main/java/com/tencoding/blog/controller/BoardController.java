@@ -88,6 +88,7 @@ public class BoardController {
 	public String saveForm() {
 		return "/board/save_form";
 	}
+	
 
 	@GetMapping("/board/{id}")
 	public String showDetial(@PathVariable int id, Model model) {
@@ -99,6 +100,12 @@ public class BoardController {
 	public String updateForm(@PathVariable(name = "id") int boardId, Model model) {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		return "/board/update_form";
+	}
+	
+	@GetMapping("/board/{id}/reply_update_form")
+	public String updateReply(@PathVariable int id, Model model) {
+		model.addAttribute("board", boardService.boardDetail(id));
+		return "/board/reply_update_form";
 	}
 
 
