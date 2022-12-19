@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Board;
@@ -33,11 +34,18 @@ public class BoardController {
 	private BoardService boardService;
 
 	// ?page =2
-	@GetMapping({ "", "/" })
-	public String index(Model model,
+	@GetMapping({ "", "/", "/board/search" })
+	public String index(@RequestParam(required = false) String q, Model model,
 			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable) {
 
-		Page<Board> boards = boardService.getBoardList(pageable);
+		// 검색 요청 값을 받아서 처리
+		String searchTitle = q == null ? "" : q;
+		System.out.println("searchTitle : " + searchTitle);
+		Page<Board> boards = boardService.searchBoard(searchTitle.replace("//", "") ,pageable);
+		
+//		Page<Board> boards = boardService.getBoardList(pageable);
+		
+		
 		int PAGENATION_BLOCK_COUNT = 3;
 		// jsp 파일에서 model 추상객체를 이용해서 컨트롤러에서 내려 준 데이터에 접근이 가능하다.
 		
@@ -70,6 +78,7 @@ public class BoardController {
 		model.addAttribute("startPage", startPageNumber);
 		model.addAttribute("endPage", endPageNumber);
 		model.addAttribute("pageNumbers", pageNumbers);
+		model.addAttribute("q", searchTitle);
 
 
 		return "index";

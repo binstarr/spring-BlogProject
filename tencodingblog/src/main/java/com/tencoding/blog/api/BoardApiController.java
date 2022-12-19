@@ -60,7 +60,8 @@ public class BoardApiController {
 	}
 	
 	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
-	public ResponseDto<?> deleteReplyById(@PathVariable String boardId, @PathVariable int replyId, @AuthenticationPrincipal PrincipalDetail principalDetail){
+	public ResponseDto<?> deleteReplyById(@PathVariable String boardId, @PathVariable int replyId,
+			@AuthenticationPrincipal PrincipalDetail principalDetail){
 //		System.out.println("boardId" + boardId);
 //		System.out.println("replyId" + replyId);
 		// 서비스 만들고 요청!

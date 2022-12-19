@@ -97,7 +97,7 @@ public class BoardService {
 
 			if (dbWriter == principalId) {
 				replyRepository.deleteById(replyId);
-			}else {
+			} else {
 				throw new IllegalArgumentException("해당 글을 찾을 수 없음");
 			}
 
@@ -105,6 +105,11 @@ public class BoardService {
 		}
 //		System.out.println(">>>>>>>>>>>>>>>" + replyEntity.getUser().getId());
 
+	}
+	
+	@Transactional
+	public Page<Board> searchBoard(String q, Pageable pageable){
+		return boardRepository.findBytitleContaining(q, pageable);
 	}
 
 }
