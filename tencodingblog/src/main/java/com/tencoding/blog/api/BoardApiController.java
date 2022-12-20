@@ -24,19 +24,21 @@ public class BoardApiController {
 	@Autowired
 	private BoardService boardService;
 
-	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board, 
-			@AuthenticationPrincipal PrincipalDetail detail) {
-
-		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
-		// BoarderService
-		// 저장하기 만들기
-		System.out.println(board);
-		boardService.write(board, detail.getUser());
-
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
-
-	}
+	// @RequestBody mimetype -> application/json 이라서 없애서 
+	// Content type 'application/x-www-form-urlencoded;charset=UTF-8' 만들었다
+//	@PostMapping("/api/board")
+//	public ResponseDto<Integer> save(Board board, 
+//			@AuthenticationPrincipal PrincipalDetail detail) {
+//
+//		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
+//		// BoarderService
+//		// 저장하기 만들기
+//		System.out.println(board);
+//		boardService.write(board, detail.getUser());
+//
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+//
+//	}
 
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteDetailById(@PathVariable int id) {

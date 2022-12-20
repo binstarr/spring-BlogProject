@@ -15,6 +15,10 @@ let index = {
 		});
 	},
 	save: function() {
+		
+		let token = $("meta[name='_csrf']").attr("content")
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
+		
 		let xcheckTitle = XSSCheck($('#title').val());
 		console.log(xcheckTitle)
 		let data = {
@@ -23,6 +27,9 @@ let index = {
 		};
 		// ajax 통신 요청
 		$.ajax({
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: 'POST',
 			url: '/api/board',
 			data: JSON.stringify(data),
@@ -41,9 +48,14 @@ let index = {
 
 	deleteById: function() {
 		let id = $("#board-id").val();
+		let token = $("meta[name='_csrf']").attr("content")
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
 
 		// 통신 ---> ajax
 		$.ajax({
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader, token)
+			},
 			type: 'DELETE',
 			url: '/api/board/' + id,
 		}).done(function(data, textStatus, xhr) {
@@ -57,10 +69,15 @@ let index = {
 	},
 
 	update: function() {
+		
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 		// HTML 태그에 직접 속성을 정의할 수 있다. 규칙은 data-*
 		// data-*의 값을 가지고 오기 위해서 Jquery --> (선택자).attr("data-id")
 		let boardId = $("#board-id").attr("data-id");
 		console.log(">>>>>>>>>>>> : " + boardId);
+		console.log(">>>>token>>>>>>> : " + token);
+		console.log(">>>>>csrfHeader>>>>>> : " + csrfHeader);
 
 		let data = {
 			title: $("#title").val(),
@@ -68,6 +85,9 @@ let index = {
 		}
 
 		$.ajax({
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "PUT",
 			url: "/api/board/" + boardId,
 			data: JSON.stringify(data),
@@ -83,12 +103,17 @@ let index = {
 		});
 	},
 	replySave: function() {
+		let token = $("meta[name='_csrf']").attr("content")
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
 		let replyData = {
 			boardId: $('#board-id').val(), // fk(board에 해당 리플)
 			content: $('#content').val()
 		};
 		// ajax 통신 요청
 		$.ajax({
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader, token)
+			},
 			type: 'POST',
 			url: `/api/board/${replyData.boardId}/reply`,
 			data: JSON.stringify(replyData),
@@ -106,9 +131,14 @@ let index = {
 		});
 	},
 	replyDelete: function(boardId, replyId) {
+		let token = $("meta[name='_csrf']").attr("content")
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
 		//alert(boardId + "," + replyId)
 
 		$.ajax({
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader, token)
+			},
 			type: 'DELETE',
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			// delete에는 body가 없으니까 contentType, data가 필요가 없다.

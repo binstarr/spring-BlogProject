@@ -107,6 +107,19 @@ public class BoardController {
 		model.addAttribute("board", boardService.boardDetail(id));
 		return "/board/reply_update_form";
 	}
+	
+	// form 태그 submit 버튼으로 글 작성
+	@PostMapping("/api/board")
+	public String save(Board board, 
+			@AuthenticationPrincipal PrincipalDetail detail) {
+
+		System.out.println(board);
+		boardService.write(board, detail.getUser());
+
+		return "redirect:/";
+
+	}
+
 
 
 }

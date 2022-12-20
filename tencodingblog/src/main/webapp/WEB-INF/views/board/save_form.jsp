@@ -13,15 +13,17 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
 <div class="container">
-	<form action="">
+	<form action="/api/board" method="POST">
 		<div class="form-group">
-			<label for="title">Title</label> <input type="text" name="title" , id="title" class="form-control">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+			<label for="title">Title</label> 
+			<input type="text" name="title" id="title" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="content">Content</label>
 			<textarea name="content" id="content" rows="5" class="form-control content"></textarea>
-	</form>
-	<button type="button" class="btn btn-primary" id="btn--save">글쓰기 완료</button>
+			<button type="submit" class="btn btn-primary" id="">글쓰기 완료</button>
+			</form>
 </div>
 
 
