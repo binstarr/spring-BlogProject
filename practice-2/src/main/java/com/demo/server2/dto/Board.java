@@ -47,7 +47,7 @@ public class Board {
 	// 연관관계의 주인이 아니다. (select 할 때 가지고 와야하는 데이터이다)
 	@ManyToOne
 	@JoinColumn(name = "userId")
-	private User userId;
+	private User user;
 
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
 	private List<Reply> reply;
