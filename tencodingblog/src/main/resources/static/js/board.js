@@ -15,10 +15,10 @@ let index = {
 		});
 	},
 	save: function() {
-		
+
 		let token = $("meta[name='_csrf']").attr("content")
 		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
-		
+
 		let xcheckTitle = XSSCheck($('#title').val());
 		console.log(xcheckTitle)
 		let data = {
@@ -27,7 +27,7 @@ let index = {
 		};
 		// ajax 통신 요청
 		$.ajax({
-			beforeSend: function(xhr){
+			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeader, token);
 			},
 			type: 'POST',
@@ -53,7 +53,7 @@ let index = {
 
 		// 통신 ---> ajax
 		$.ajax({
-			beforeSend: function(xhr){
+			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeader, token)
 			},
 			type: 'DELETE',
@@ -69,7 +69,7 @@ let index = {
 	},
 
 	update: function() {
-		
+
 		let token = $("meta[name='_csrf']").attr("content");
 		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 		// HTML 태그에 직접 속성을 정의할 수 있다. 규칙은 data-*
@@ -85,7 +85,7 @@ let index = {
 		}
 
 		$.ajax({
-			beforeSend: function(xhr){
+			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeader, token);
 			},
 			type: "PUT",
@@ -107,11 +107,11 @@ let index = {
 		let csrfHeader = $("meta[name='_csrf_header']").attr("content")
 		let replyData = {
 			boardId: $('#board-id').val(), // fk(board에 해당 리플)
-			content: $('#content').val()
+			content: $('#reply--content').val()
 		};
 		// ajax 통신 요청
 		$.ajax({
-			beforeSend: function(xhr){
+			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeader, token)
 			},
 			type: 'POST',
@@ -121,8 +121,7 @@ let index = {
 			dataType: 'json'
 		}).done(function(data, textStatus, xhr) {
 			if (data.status == 'OK') {
-				alert("댓글 작성이 완료 되었습니다.")
-				location.href = `/board/${replyData.boardId}`;
+				addReplyElement(data.body);
 			}
 		}).fail(function(error) {
 			console.log(error);
@@ -136,7 +135,7 @@ let index = {
 		//alert(boardId + "," + replyId)
 
 		$.ajax({
-			beforeSend: function(xhr){
+			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeader, token)
 			},
 			type: 'DELETE',
@@ -152,35 +151,20 @@ let index = {
 			alert("댓글 삭제 실패")
 		});
 	},
-	replyUpdate: function() {
-		// HTML 태그에 직접 속성을 정의할 수 있다. 규칙은 data-*
-		// data-*의 값을 가지고 오기 위해서 Jquery --> (선택자).attr("data-id")
-		let boardId = $("#board-id").attr("data-id");
-		console.log(">>>>>>>>>>>> : " + boardId);
 
-		let data = {
-			title: $("#title").val(),
-			content: $("#content").val()
-		}
+}
 
-		$.ajax({
-			type: "PUT",
-			url: `/api/board/${boardId}/reply/${replyId}`,
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json"
-		}).done(function(data, textStatus, xhr) {
-			if (data.status) {
-				alert("글 수정이 완료 되었습니다.");
-				location.href = "/";
-			}
-		}).fail(function(error) {
-			alert("글 수정에 실패 하였습니다.");
-		});
-	},
+function addReplyElement(reply) {
+	let childElement = `<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
+				<div>${reply.content}</div>
+				<div class="d-flex">
+					<div>작성자 :&nbsp;${reply.user.username}&nbsp;&nbsp;&nbsp;</div>
+					<button class="btn btn-danger badge" onclick="index.replyDelete(${reply.board.id},${reply.id});">삭제</button>
+				</div>
+			</li>`;
 
-
-
+	$("#reply--box").prepend(childElement);
+	$("#reply--content").val("");
 }
 
 function XSSCheck(str, level) {

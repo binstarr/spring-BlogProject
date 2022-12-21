@@ -22,7 +22,7 @@
 	<br> <br>
 	<div class="card">
 		<div class="card-body">
-			<textarea rows="1" class="form-control" id="content"></textarea>
+			<textarea rows="1" class="form-control" id="reply--content"></textarea>
 		</div>
 		<div class="card-footer">
 			<button class="btn btn-primary" id="btn-reply-save">등록</button>
@@ -32,16 +32,15 @@
 	<div class="card">
 		<div class="card-header">댓글 목록</div>
 	</div>
-	<ul class="list-group">
+	<ul class="list-group" id="reply--box">
 		<c:forEach var="reply" items="${board.replys}">
-			<li class="list-group-item d-flex justify-content-between">
+			<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
 				<div>${reply.content}</div>
 				<div class="d-flex">
 					<div>작성자 :&nbsp;${reply.user.username}&nbsp;&nbsp;&nbsp;</div>
 
 					<c:if test="${reply.user.id eq principal.user.id}">
 						<button class="btn btn-danger badge" onclick="index.replyDelete(${board.id},${reply.id});">삭제</button>
-						<a class="btn btn-danger badge" href="/board/${board.id}/reply_update_form" onclick="index.replyUpdate(${board.id},${reply.id});">수정</a>
 					</c:if>
 
 				</div>
