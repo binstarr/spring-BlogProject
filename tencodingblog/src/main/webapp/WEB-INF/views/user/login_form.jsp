@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="../layout/header.jsp" %>
-
+<br><br>
 <!-- /auth/loginProc 는 SecurityConfig에 있다. -->
 <!-- loginProcessingURI("/auth/loginProc")으로 설정 되어 있음 -->
 <div class="container">

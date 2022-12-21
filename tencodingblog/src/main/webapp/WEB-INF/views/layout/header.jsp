@@ -13,6 +13,7 @@
 <meta id="_csrf" name="${_csrf.parameterName}" content="${_csrf.token}">
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}">
 <title>Insert title here</title>
+<link data-default-icon="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" rel="icon" sizes="192x192" href="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -38,10 +39,31 @@
 					<c:otherwise>
 						<li class="nav-item"><a class="nav-link" href="/board/save_form">글쓰기</a></li>
 						<li class="nav-item"><a class="nav-link" href="/user/update_form">회원정보</a></li>
+						
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">STORY</a>
+							
+							<ul class="dropdown-menu" role="menu">
+								<li class="nav-item">
+									<a href="/story/home" class="dropdown-item" >
+										<span class="text-secondary">
+											<i class="fas fa-cloud"></i> 스토리 홈
+										</span>
+									</a>
+								</li>
+								<li  class="nav-item">
+									<a href="/story/upload" class="dropdown-item" >
+										<span class="text-secondary">
+											<i class="fas fa-cloud"></i> 스토리 업로드
+										</span>
+									</a>
+								</li>
+							</ul>
+							
+						
 						<li class="nav-item"><a class="nav-link" href="/m-logout">로그아웃</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
 		</div>
 	</nav>
-	<br>
