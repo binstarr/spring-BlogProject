@@ -30,6 +30,19 @@ public class UserService {
 		return -1;
 	}
 
+	public void update(User user) {
+		User userEntity = userRepository.findById(user.getId()).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 유저를 찾을 수 없습니다.");
+		});
+		userEntity.setUsername(user.getUsername());
+		String unEncodedPassword = user.getPassword();
+		String encodedPassword = encoder.encode(unEncodedPassword);
+		userEntity.setPassword(encodedPassword);
+		userEntity.setEmail(user.getEmail());
+		
+		userRepository.save(userEntity);
+	}
+
 //	public User login(User user) {
 //		User userEntity = userRepository.login(user.getUsername(), user.getPassword());
 //		return userEntity;

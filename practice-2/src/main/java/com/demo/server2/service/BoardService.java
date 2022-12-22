@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.server2.dto.Board;
+import com.demo.server2.dto.Reply;
 import com.demo.server2.dto.User;
 import com.demo.server2.repository.BoardRepository;
+import com.demo.server2.repository.ReplyRepository;
 
 @Service
 public class BoardService {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 
 
 	public void write(Board board, User user) {
@@ -50,6 +55,38 @@ public class BoardService {
 		return 1;
 	}
 
+	@Transactional
+	public void writeReply(int boardId, Reply reqReply, User user) {
+		
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재하지 않습니다.");
+		});
+		
+		reqReply.setUser(user);
+		reqReply.setBoard(board);
+		replyRepository.save(reqReply);
+		
+		
+	}
+
+	@Transactional
+	public void deleteReply(int replyId, int reqId) {
+		
+		Reply replyEntity = replyRepository.findById(replyId).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 삭제 실패 : 댓글이 존재하지 않습니다.");
+		});
+		
+		int foundIdByReply = replyEntity.getUser().getId();
+		int principalId = reqId;
+		
+		if(foundIdByReply == principalId) {
+			replyRepository.deleteById(replyId);
+		}else {
+			throw new IllegalArgumentException("댓글 삭제 실패 : 댓글이 존재하지 않습니다.");
+		}
+	}
+
+	// 스토리에 페이지 검색 만들기
 	
 	
 }

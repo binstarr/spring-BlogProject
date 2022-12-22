@@ -33,4 +33,9 @@ public class UserController {
 		httpSession.invalidate();
 		return "rediect:/";
 	}
+	
+	@GetMapping("/user/update_form")
+	public String update() {
+		return "user/update_form";
+	}
 }
