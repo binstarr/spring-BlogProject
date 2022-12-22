@@ -86,7 +86,7 @@ public class BoardService {
 		}
 	}
 
-	// 스토리에 페이지 검색 만들기
+	
 	
 	
 }

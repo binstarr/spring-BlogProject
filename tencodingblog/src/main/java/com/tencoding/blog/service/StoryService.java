@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Image;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class StoryService {
 
+	@Autowired
 	private final ImageRepository imageRepository;
 
 	@Value("${file.path}")
@@ -53,9 +56,10 @@ public class StoryService {
 			e.printStackTrace();
 		}
 	}
-
-	public Page<Image> getImageList(Pageable pageable) {
-		return imageRepository.findAll(pageable);
+	
+	@Transactional
+	public Page<Image> getImageList(String s, Pageable pageable) {
+		return imageRepository.findBystoryTextContaining(s, pageable);
 	}
 
 }

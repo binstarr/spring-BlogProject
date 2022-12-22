@@ -86,5 +86,7 @@ public class BoardApiController {
 		int result = boardService.modifyBoard(boardId, board);
 		return new ResponseDto<Integer>(HttpStatus.OK, result);
 	}
+	
+	// 스토리에 페이지 검색 만들기
 
 }

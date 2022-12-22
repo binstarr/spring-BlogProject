@@ -13,7 +13,15 @@
 
 <section class="py-5">
 	<div class="container px-4 px-lg-5 mt-5">
+		<div class="d-flex justify-content-end m-2">
+
+			<form action="/board/story/search" method="get" class="form-inline">
+				<input class="form-control mr-1" type="text" placeholder="검색어를 입력하세요" name="search" value="${search}">
+				<button type="submit" class="btn btn-warning">TITLE</button>
+			</form>
+		</div>
 		<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
 			<c:forEach var="image" items="${imagePage.getContent()}">
 				<div class="col mb-5">
 					<div class="card h-100">
@@ -46,8 +54,23 @@
 					</div>
 				</div>
 			</c:forEach>
-
 		</div>
+		<ul class="pagination justify-content-center">
+			<c:set var="isDisabled" value="disabled"></c:set>
+			<c:set var="isNotDisabled" value=""></c:set>
+			<li class="page-item ${imagePage.first ? isDisabled : isNotDisabled }"><a class="page-link" href="?page=${imagePage.number-1}">Previous</a></li>
+			<c:forEach var="pageNum" items="${pageList}">
+				<c:choose>
+					<c:when test="${nowPage eq pageNum }">
+						<li class="page-item"><a class="page-link" href="?page=${pageNum - 1}">${pageNum}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="?page=${pageNum - 1}">${pageNum}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<li class="page-item ${imagePage.last ? isDisabled : isNotDisabled }"><a class="page-link" href="?page=${imagePage.number+1}">Next</a></li>
+		</ul>
 	</div>
 </section>
 
