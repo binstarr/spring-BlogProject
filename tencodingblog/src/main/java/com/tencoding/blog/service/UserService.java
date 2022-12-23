@@ -45,7 +45,7 @@ public class UserService {
 		return -1;
 	}
 	
-	@org.springframework.transaction.annotation.Transactional
+	@Transactional
 	public void updateUser(User reqUser) {
 		
 		User userEntity = userRepository.findById(reqUser.getId())

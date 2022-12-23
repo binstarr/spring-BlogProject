@@ -14,6 +14,7 @@ import com.tencoding.blog.dto.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	//SELECT*FROM user where username = ?1;
+	@Query(value = "SELECT*FROM user WHERE username = ?1;", nativeQuery = true)
 	Optional<User> findByUsername(String username);
 	
 	// 없는 함수는 직접 함수를 만들거나 또는 spring JAP 네이밍 전략
