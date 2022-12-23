@@ -85,6 +85,11 @@ public class BoardService {
 			throw new IllegalArgumentException("댓글 삭제 실패 : 댓글이 존재하지 않습니다.");
 		}
 	}
+	
+	@Transactional
+	public Page<Board> searchBoard(String searchValue, Pageable pageable){
+		return boardRepository.findByTitleContaining(searchValue, pageable);
+	}
 
 	
 	
